@@ -10,5 +10,8 @@ extension Droplet {
         
         let gamesController = GamesController()
         gamesController.addRoutes(to: self)
+        
+        let statsController = StatsController()
+        statsController.addRoutes(to: self)
     }
 }

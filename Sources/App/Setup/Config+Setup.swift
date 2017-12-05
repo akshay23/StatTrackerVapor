@@ -21,5 +21,6 @@ extension Config {
         preparations.append(Team.self)
         preparations.append(Player.self)
         preparations.append(Game.self)
+        preparations.append(Stat.self)
     }
 }

@@ -9,6 +9,7 @@ struct PlayersController {
         playerGroup.get(Player.parameter, handler: getPlayer)
         playerGroup.delete(handler: deleteAllPlayers)
         playerGroup.get(Player.parameter, "team", handler: getPlayerTeam)
+        playerGroup.get(Player.parameter, "stats", handler: getPlayerStats)
     }
     
     func createPlayer(_ req: Request) throws -> ResponseRepresentable {
@@ -46,5 +47,10 @@ struct PlayersController {
             throw Abort.notFound
         }
         return team
+    }
+    
+    func getPlayerStats(_ req: Request) throws -> ResponseRepresentable {
+        let player = try req.parameters.next(Player.self)
+        return try player.stats.all().makeJSON()
     }
 }

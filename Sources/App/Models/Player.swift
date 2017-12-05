@@ -19,7 +19,7 @@ final class Player: Model {
         static let age = "age"
         static let jerseyNumber = "jerseyNumber"
         static let yearsPro = "yearsPro"
-        static let teamID = "team_id"
+        static let teamID = Team.foreignIdKey
     }
     
     init(firstName: String, lastName: String, position: String, age: Int, jerseyNumber: Int, yearsPro: Int, team: Team) {
@@ -39,7 +39,7 @@ final class Player: Model {
         age = try row.get(Properties.age)
         jerseyNumber = try row.get(Properties.jerseyNumber)
         yearsPro = try row.get(Properties.yearsPro)
-        teamID = try row.get(Team.foreignIdKey)
+        teamID = try row.get(Properties.teamID)
     }
     
     func makeRow() throws -> Row {
@@ -50,14 +50,19 @@ final class Player: Model {
         try row.set(Properties.age, age)
         try row.set(Properties.jerseyNumber, jerseyNumber)
         try row.set(Properties.yearsPro, yearsPro)
-        try row.set(Team.foreignIdKey, teamID)
+        try row.set(Properties.teamID, teamID)
         return row
     }
 }
 
+// Return parent team
 extension Player {
     var team: Parent<Player, Team> {
         return parent(id: teamID)
+    }
+    
+    var stats: Children<Player, Team> {
+        return children()
     }
 }
 
