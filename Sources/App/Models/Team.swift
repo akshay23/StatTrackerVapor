@@ -91,3 +91,5 @@ extension Team: JSONConvertible {
 }
 
 extension Team: ResponseRepresentable {}
+
+extension Team: SoftDeletable {}

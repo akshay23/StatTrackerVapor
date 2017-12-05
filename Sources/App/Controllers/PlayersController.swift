@@ -6,7 +6,9 @@ struct PlayersController {
         let playerGroup = drop.grouped("api", "players")
         playerGroup.post("create", handler: createPlayer)
         playerGroup.get(handler: allPlayers)
-        playerGroup.get(Team.parameter, handler: getPlayer)
+        playerGroup.get(Player.parameter, handler: getPlayer)
+        playerGroup.delete(handler: deleteAllPlayers)
+        playerGroup.get(Player.parameter, "team", handler: getPlayerTeam)
     }
     
     func createPlayer(_ req: Request) throws -> ResponseRepresentable {
@@ -27,5 +29,22 @@ struct PlayersController {
     func getPlayer(_ req: Request) throws -> ResponseRepresentable {
         let player = try req.parameters.next(Player.self)
         return player
+    }
+    
+    func deleteAllPlayers(_ req: Request) throws -> ResponseRepresentable {
+        let players = try Player.all()
+        for player in players {
+            try player.delete()
+        }
+        
+        return try Player.all().makeJSON()
+    }
+    
+    func getPlayerTeam(_ req: Request) throws -> ResponseRepresentable {
+        let player = try req.parameters.next(Player.self)
+        guard let team = try player.team.get() else {
+            throw Abort.notFound
+        }
+        return team
     }
 }

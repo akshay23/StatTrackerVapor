@@ -88,6 +88,7 @@ extension Player: JSONConvertible {
         guard let team = try Team.find(teamID) else {
             throw Abort.badRequest
         }
+        
         try self.init(firstName: json.get(Properties.firstName),
                       lastName: json.get(Properties.lastName),
                       position: json.get(Properties.position),
@@ -112,3 +113,5 @@ extension Player: JSONConvertible {
 
 // Since there is a JSON representation
 extension Player: ResponseRepresentable {}
+
+extension Player: SoftDeletable {}
