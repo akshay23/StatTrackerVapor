@@ -7,5 +7,8 @@ extension Droplet {
         
         let playerController = PlayersController()
         playerController.addRoutes(to: self)
+        
+        let gamesController = GamesController()
+        gamesController.addRoutes(to: self)
     }
 }

@@ -20,5 +20,6 @@ extension Config {
     private func setupPreparations() throws {
         preparations.append(Team.self)
         preparations.append(Player.self)
+        preparations.append(Game.self)
     }
 }
