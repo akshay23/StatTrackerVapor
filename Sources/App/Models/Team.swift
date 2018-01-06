@@ -9,6 +9,7 @@ final class Team: Model {
     let founded: Int
     let conference: String
     let division: String
+    let logoURL: String
     
     struct Properties {
         static let id = "id"
@@ -17,14 +18,16 @@ final class Team: Model {
         static let founded = "founded"
         static let conference = "conference"
         static let division = "division"
+        static let logoURL = "logoURL"
     }
     
-    init(name: String, location: String, founded: Int, conference: String, division: String) {
+    init(name: String, location: String, founded: Int, conference: String, division: String, logoURL: String) {
         self.name = name
         self.location = location
         self.founded = founded
         self.conference = conference
         self.division = division
+        self.logoURL = logoURL
     }
     
     init(row: Row) throws {
@@ -33,6 +36,7 @@ final class Team: Model {
         founded = try row.get(Properties.founded)
         conference = try row.get(Properties.conference)
         division = try row.get(Properties.division)
+        logoURL = try row.get(Properties.logoURL)
     }
     
     func makeRow() throws -> Row {
@@ -42,6 +46,7 @@ final class Team: Model {
         try row.set(Properties.founded, founded)
         try row.set(Properties.conference, conference)
         try row.set(Properties.division, division)
+        try row.set(Properties.logoURL, logoURL)
         return row
     }
 }
@@ -61,6 +66,7 @@ extension Team: Preparation {
             builder.int(Properties.founded)
             builder.string(Properties.conference)
             builder.string(Properties.division)
+            builder.string(Properties.logoURL)
         }
     }
     
@@ -75,7 +81,8 @@ extension Team: JSONConvertible {
                       location: json.get(Properties.location),
                       founded: json.get(Properties.founded),
                       conference: json.get(Properties.conference),
-                      division: json.get(Properties.division))
+                      division: json.get(Properties.division),
+                      logoURL: json.get(Properties.logoURL))
     }
     
     func makeJSON() throws -> JSON {
@@ -86,6 +93,7 @@ extension Team: JSONConvertible {
         try json.set(Properties.founded, founded)
         try json.set(Properties.conference, conference)
         try json.set(Properties.division, division)
+        try json.set(Properties.logoURL, logoURL)
         return json
     }
 }
