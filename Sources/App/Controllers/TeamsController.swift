@@ -7,6 +7,7 @@ struct TeamsController {
         teamGroup.post("create", handler: createTeam)
         teamGroup.get(handler: allTeams)
         teamGroup.get(Team.parameter, handler: getTeam)
+        teamGroup.delete(Team.parameter, handler: deleteTeam)
         teamGroup.delete(handler: deleteAllTeams)
         teamGroup.get(Team.parameter, "players", handler: getPlayers)
     }
@@ -24,6 +25,12 @@ struct TeamsController {
     func allTeams(_ req: Request) throws -> ResponseRepresentable {
         let teams = try Team.all()
         return try teams.makeJSON()
+    }
+    
+    func deleteTeam(_ req: Request) throws -> ResponseRepresentable {
+        let team = try req.parameters.next(Team.self)
+        try team.delete()
+        return try Team.all().makeJSON()
     }
     
     func deleteAllTeams(_ req: Request) throws -> ResponseRepresentable {
